@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#101114">
+    <meta name="description" content="Create a personalized, editable cover letter with AI or a template.">
+    <title>LetterCraft AI — Cover Letter Generator</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="./script.js" defer></script>
+</head>
+<body>
+<header class="topbar">
+    <a class="brand" href="/" aria-label="LetterCraft AI home">
+        <span class="brand-mark" aria-hidden="true">L</span>
+        <span>LetterCraft <span class="brand-light">AI</span></span>
+    </a>
+    <span class="top-note"><span class="status-dot"></span> AI-powered writing studio</span>
+</header>
+
+<main class="shell">
+    <section class="hero">
+        <p class="eyebrow">YOUR NEXT OPPORTUNITY STARTS HERE</p>
+        <h1>A better letter.<br><span>A stronger first impression.</span></h1>
+        <p class="hero-copy">Build a focused, professional cover letter in minutes. Personalize it, review it, and make it yours.</p>
+    </section>
+
+    <div class="workspace">
+        <section class="panel form-panel" aria-labelledby="form-title">
+            <div class="panel-heading">
+                <div>
+                    <p class="step-label">STEP 01</p>
+                    <h2 id="form-title">Your details</h2>
+                </div>
+                <span class="required-note">* Required</span>
+            </div>
+
+            <form id="coverLetterForm" novalidate>
+                <div class="field-grid">
+                    <div class="field">
+                        <label for="name">Full name <span>*</span></label>
+                        <input id="name" name="name" autocomplete="name" maxlength="150" required placeholder="e.g. Amlesh Kumar">
+                    </div>
+                    <div class="field">
+                        <label for="email">Email <span class="optional">(optional)</span></label>
+                        <input id="email" name="email" type="email" autocomplete="email" maxlength="254" placeholder="you@example.com">
+                    </div>
+                    <div class="field">
+                        <label for="role">Target role <span>*</span></label>
+                        <input id="role" name="role" maxlength="200" required placeholder="e.g. Junior Frontend Developer">
+                    </div>
+                    <div class="field">
+                        <label for="company">Company <span>*</span></label>
+                        <input id="company" name="company" maxlength="200" required placeholder="e.g. Acme Technologies">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="skills">Skills and strengths <span>*</span></label>
+                    <textarea id="skills" name="skills" rows="3" maxlength="2000" required placeholder="JavaScript, React, REST APIs, responsive UI, teamwork..."></textarea>
+                    <p class="field-hint">Use skills you can confidently discuss in an interview.</p>
+                </div>
+
+                <div class="field">
+                    <label for="experience">Experience / projects <span class="optional">(optional)</span></label>
+                    <textarea id="experience" name="experience" rows="3" maxlength="1000" placeholder="Internships, projects, achievements, or relevant coursework"></textarea>
+                </div>
+
+                <div class="field">
+                    <label for="description">Job description <span class="optional">(optional)</span></label>
+                    <textarea id="description" name="description" rows="4" maxlength="3000" placeholder="Paste key responsibilities and requirements from the job post..."></textarea>
+                </div>
+
+                <div class="field">
+                    <label for="resumeInput">Resume PDF <span class="optional">(optional, max 5 MB)</span></label>
+                    <label class="upload-zone" id="dropzone" for="resumeInput">
+                        <span class="upload-icon" aria-hidden="true">↑</span>
+                        <span><strong>Choose a PDF resume</strong><small>Text-based PDF works best. File is processed in memory.</small></span>
+                        <input id="resumeInput" name="resume" type="file" accept="application/pdf,.pdf">
+                    </label>
+                    <div class="file-row" id="fileRow" hidden>
+                        <span class="file-icon" aria-hidden="true">PDF</span>
+                        <span class="file-name" id="fileName"></span>
+                        <button type="button" class="text-button" id="removeFileButton">Remove</button>
+                    </div>
+                </div>
+
+                <fieldset class="tone-field">
+                    <legend>Writing tone</legend>
+                    <div class="tone-options" role="group" aria-label="Writing tone">
+                        <button type="button" class="tone-option active" data-tone="Professional" aria-pressed="true">Professional</button>
+                        <button type="button" class="tone-option" data-tone="Confident" aria-pressed="false">Confident</button>
+                        <button type="button" class="tone-option" data-tone="Warm" aria-pressed="false">Warm</button>
+                        <button type="button" class="tone-option" data-tone="Concise" aria-pressed="false">Concise</button>
+                    </div>
+                </fieldset>
+
+                <div class="form-actions">
+                    <button class="button button-primary" id="generateButton" type="submit"><span aria-hidden="true">✦</span> Generate with Gemini</button>
+                    <button class="button button-secondary" id="templateButton" type="button">Use template instead</button>
+                    <button class="text-button clear-button" id="clearDetails" type="button">Clear details</button>
+                </div>
+                <p class="privacy-note"><span aria-hidden="true">▣</span> Your API key stays on the server. Review the letter for accuracy before sending.</p>
+            </form>
+        </section>
+
+        <section class="panel preview-panel" aria-labelledby="preview-title">
+            <div class="panel-heading preview-heading">
+                <div>
+                    <p class="step-label">STEP 02</p>
+                    <h2 id="preview-title">Your cover letter</h2>
+                </div>
+                <span class="preview-badge" id="status">Ready</span>
+            </div>
+            <div class="paper-wrap">
+                <article class="paper" id="paper" aria-live="polite" aria-busy="false">
+                    <div class="empty-state" id="emptyState">
+                        <div class="empty-icon" aria-hidden="true">✧</div>
+                        <h3>Your next chapter begins here.</h3>
+                        <p>Fill in your details, then generate your first cover letter. Your draft will appear here for review.</p>
+                        <ul>
+                            <li>Tailored to your target role</li>
+                            <li>Built around your real skills</li>
+                            <li>Easy to copy and edit</li>
+                        </ul>
+                    </div>
+                </article>
+            </div>
+            <div class="preview-footer" id="previewFooter">
+                <span id="letterMeta">Your draft will appear here</span>
+                <div class="preview-actions">
+                    <button class="button button-secondary" id="regenerateButton" type="button" disabled>Regenerate</button>
+                    <button class="button button-primary" id="copyButton" type="button" disabled>Copy letter</button>
+                    <button class="button button-quiet" id="clearLetterButton" type="button">Clear</button>
+                </div>
+            </div>
+            <p class="disclaimer">AI can make mistakes. Confirm every claim and customize the final letter before applying.</p>
+        </section>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</main>
+
+<footer class="site-footer">
+    <span>LetterCraft AI</span><span>Write with purpose. Apply with confidence.</span>
+</footer>
+</body>
+</html>
